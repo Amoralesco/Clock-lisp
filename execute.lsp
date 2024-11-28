@@ -1,41 +1,21 @@
-(defun c:segundero ()
-  (setq minutero (entget(handent "323")))
-  (setq angulo 0)
-  (setq time_s 60)
-  
+(defun c:initClock ()
+  (setq date (getvar "CDATE"))
+  (setq second_hand (entget(handent "46E"))); segundero
+  (setq minute_hand (entget(handent "47F")));47F minutero
+  (setq hour_hand (entget(handent "489")));489 horarrio
+  (setvar "INTELLIGENTUPDATE" 0)
+  (setq agl 0)
+  (setq time_s 240)
+
 
   (while (> time_s 0)
-
-  (setq angulo (- angulo (/ (* pi 2) 60)))
-  (setq cambio-angulo (subst (cons 50 angulo) (assoc 50 minutero) minutero))
-  (entmod cambio-angulo)
-
-
-
-  (setq time_s (- time_s 1))
-  (command "delay" "1000")
+    (setq agl (- agl (/ (* pi 2) 240)))
+    (setq cambio-angulo (subst (cons 50 agl) (assoc 50 second_hand)second_hand))
+    (entmod cambio-angulo)
+    (setq time_s (- time_s 1))
+    (command "delay" "250")
   )
 
-
-  ;(setq start-time (getvar "CDATE"))
-  ;;(setq end-time (+ start-time 60.0))
-  
-;;  (setq interrupted nil) ; Variable para controlar la interrupción
-  
- ;; (repeat 60
-  ;;  (if (eq (getvar "LASTPROMPT") "c") ; Condición de interrupción
-   ;;   (progn
-   ;;     (setq interrupted t) ; Establece la bandera de interrupción
-    ;;    (print "Bucle interrumpido.")
-     ;; )
-  ;;  )
-    
-  ;;  (if interrupted
-   ;;   (return) ; Sale del bucle si se ha activado la interrupción
-   ;; )
-    
-   ;; (command "'delay" "1") ; Retraso de 1 segundo sin bloquear la interfaz
-   ;; (print "Hola, AutoCAD!") ; Mensaje cada segundo
-;;  )
- ;; (princ)
+  (setvar "INTELLIGENTUPDATE" 20)
 )
+
